@@ -1,28 +1,27 @@
-const { Cliente: clientModel, sequelize, } = require("../models/");
+const { Pokemon: PokemonModel, sequelize, } = require("../models");
 
-class clientService {
+class PokemonService {
   async getOne(id) {
-    const cliente = await clientModel.findOne({
+    const pokemon = await PokemonModel.findOne({
       where: { id, estado: 1 },
     });
-    return cliente;
+    return pokemon;
   }
 
   async getAll(where) {
-    const cliente = await clientModel.findAll({
+    const pokemon = await PokemonModel.findAll({
       where: { ...where, estado: 1 },
     });
-    return cliente;
+    return pokemon;
   }
 
   async create(data) {
     const t = await sequelize.transaction();
     try {
-      const createdClient = await clientModel.create({...data,estado:1}, { transaction: t });
+      const createdPokemon = await PokemonModel.create(data, { transaction: t });
       await t.commit();
-      return createdClient;
+      return createdPokemon;
     } catch (e) {
-      console.log(e)
       await t.rollback();
       return {
         status: 400,
@@ -31,16 +30,16 @@ class clientService {
     }
   }
 
-  async update(data, clientId) {
+  async update(data, PokemonId) {
     const t = await sequelize.transaction();
     try {
-      await clientModel.update(data, {
-        where: { id: clientId },
+      await PokemonModel.update(data, {
+        where: { id: PokemonId },
         transaction: t,
       });
       await t.commit();
-      const updatedClient = await clientModel.findByPk(clientId);
-      return updatedClient;
+      const updatedPokemon = await PokemonModel.findByPk(PokemonId);
+      return updatedPokemon;
     } catch (e) {
       await t.rollback();
       return {
@@ -50,25 +49,25 @@ class clientService {
     }
   }
 
-  async delete(clientId) {
+  async delete(PokemonId) {
     const t = await sequelize.transaction();
-    const cliente = await this.getOne(clientId.id);
-    if (!cliente) {
+    const Pokemon = await this.getOne(PokemonId);
+    if (!Pokemon) {
       return {
         status: 400,
         message: "User Not Found",
       };
     }
     try {
-      await clientModel.update(
+      await PokemonModel.update(
         { estado: -1 },
         {
-          where: { id: clientId.id },
+          where: { id: PokemonId },
           transaction: t,
         }
       );
       await t.commit();
-      return clientId;
+      return PokemonId;
     } catch (e) {
       await t.rollback();
       return {
@@ -79,4 +78,4 @@ class clientService {
   }
 }
 
-module.exports = clientService;
+module.exports = PokemonService;
