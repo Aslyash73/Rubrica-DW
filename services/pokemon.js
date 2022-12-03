@@ -1,26 +1,26 @@
-const { Autos: AutosModel, sequelize, } = require("../models/");
+const { Pokemon: PokemonModel, sequelize, } = require("../models");
 
-class AutosService {
+class PokemonService {
   async getOne(id) {
-    const autos = await AutosModel.findOne({
-      where: { id, state: 1 },
+    const pokemon = await PokemonModel.findOne({
+      where: { id, estado: 1 },
     });
-    return autos;
+    return pokemon;
   }
 
   async getAll(where) {
-    const autos = await AutosModel.findAll({
-      where: { ...where, state: 1 },
+    const pokemon = await PokemonModel.findAll({
+      where: { ...where, estado: 1 },
     });
-    return autos;
+    return pokemon;
   }
 
   async create(data) {
     const t = await sequelize.transaction();
     try {
-      const createdAutos = await AutosModel.create(data, { transaction: t });
+      const createdPokemon = await PokemonModel.create(data, { transaction: t });
       await t.commit();
-      return createdAutos;
+      return createdPokemon;
     } catch (e) {
       await t.rollback();
       return {
@@ -30,16 +30,16 @@ class AutosService {
     }
   }
 
-  async update(data, AutosId) {
+  async update(data, PokemonId) {
     const t = await sequelize.transaction();
     try {
-      await AutosModel.update(data, {
-        where: { id: AutosId },
+      await PokemonModel.update(data, {
+        where: { id: PokemonId },
         transaction: t,
       });
       await t.commit();
-      const updatedAutos = await AutosModel.findByPk(AutosId);
-      return updatedAutos;
+      const updatedPokemon = await PokemonModel.findByPk(PokemonId);
+      return updatedPokemon;
     } catch (e) {
       await t.rollback();
       return {
@@ -49,25 +49,25 @@ class AutosService {
     }
   }
 
-  async delete(AutosId) {
+  async delete(PokemonId) {
     const t = await sequelize.transaction();
-    const Autos = await this.getOne(AutosId);
-    if (!Autos) {
+    const Pokemon = await this.getOne(PokemonId);
+    if (!Pokemon) {
       return {
         status: 400,
         message: "User Not Found",
       };
     }
     try {
-      await AutosModel.update(
-        { state: -1 },
+      await PokemonModel.update(
+        { estado: -1 },
         {
-          where: { id: AutosId },
+          where: { id: PokemonId },
           transaction: t,
         }
       );
       await t.commit();
-      return AutosId;
+      return PokemonId;
     } catch (e) {
       await t.rollback();
       return {
@@ -78,4 +78,4 @@ class AutosService {
   }
 }
 
-module.exports = AutosService;
+module.exports = PokemonService;

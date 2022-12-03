@@ -4,14 +4,13 @@ module.exports = (sequelize, DataTypes) => {
       {
         id: {
             type: DataTypes.INTEGER,
-            autoIcrement: true,
+            autoIncrement: true,
             primaryKey: true,
         },
         nombre: { type: DataTypes.STRING(500), allowNull: false },
-        apellido: {type: DataTypes.VARCHAR(500), allowNull: false},
-        edad: {type: DataTypes.VARCHAR(500), allowNull: false},
-        telefono: {type: DataTypes.VARCHAR(500), allowNull: false},
-        cedula: {type: DataTypes.VARCHAR(500), allowNull: false},
+        apellido: {type: DataTypes.STRING(500), allowNull: false},
+        telefono: {type: DataTypes.STRING(500), allowNull: false},
+        ciudad: {type: DataTypes.STRING(500), allowNull: false},
         estado : {type: DataTypes.TINYINT(4), allowNull:  false, defaultValue:1},
     },
     {
@@ -21,5 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     );
+    Cliente.associate = function (models) {
+        Cliente.hasMany(models.pokemoncliente, {
+            foreignKey: "idPokemon",
+            as: "pokemoncliente",
+        });
+    };
+
     return Cliente;
 };

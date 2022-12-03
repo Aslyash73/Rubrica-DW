@@ -1,28 +1,41 @@
-const { Parametro: ParametroModel, sequelize, } = require("../models/");
+const {
+  Parametro: ParametroModel,
+  sequelize
+} = require("../models/");
 
 class parametroService {
   async getOne(id) {
     const parametro = await ParametroModel.findOne({
-      where: { id, state: 1 },
+      where: { id, estado: 1 },
     });
     return parametro;
   }
 
-  async getAll(where) {
-    const parametro = await ParametroModel.findAll({
-      where: { ...where, state: 1 },
-    });
-    return parametro;
+  async getAll() {
+    try {
+      const parametro = await ParametroModel.findAll({
+        where: { estado: 1 },
+      });
+      return parametro;
+    } catch (error) {
+      return error;
+    }
   }
 
   async create(data) {
     const t = await sequelize.transaction();
     try {
-      const createdparametro = await ParametroModel.create(data, { transaction: t });
+      const createdparametro = await ParametroModel.create({
+        ...data
+      },
+        {
+          transaction: t
+        });
       await t.commit();
       return createdparametro;
     } catch (e) {
       await t.rollback();
+      console.log(e)
       return {
         status: 400,
         message: "Couldn't create",
@@ -60,7 +73,7 @@ class parametroService {
     }
     try {
       await ParametroModel.update(
-        { state: -1 },
+        { estado: -1 },
         {
           where: { id: parametroId },
           transaction: t,
