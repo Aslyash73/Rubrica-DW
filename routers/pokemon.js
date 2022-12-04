@@ -1,7 +1,7 @@
 const express = require("express");
-const pokemonServices = require("../services/pokemon")
+const PokemonServices = require("../services/pokemon")
 const pokemonApi = (app) => {
-    const pokemonServices = new pokemonServices();
+    const pokemonServices = new PokemonServices();
     const router = express.Router();
     app.use("/pokemon", router)
     //http://localhost:5000/pokemon/

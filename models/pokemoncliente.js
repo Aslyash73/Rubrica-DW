@@ -3,11 +3,14 @@ module.exports = (sequelize, DataTypes) => {
       "PokemonCliente",
       {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             autoIcrement: true,
             primaryKey: true,
         },
-        idCliente: {type: DataTypes.BIGINT, allowNull: false},
+        id_cliente: {
+            type: DataTypes.BIGINT(20), 
+            allowNull: false
+        },
         idPokemon: {type: DataTypes.DATE, allowNull: false},
         estado : {type: DataTypes.TINYINT(4), allowNull:  false, defaultValue:1},
     },
@@ -23,10 +26,6 @@ module.exports = (sequelize, DataTypes) => {
         PokemonCliente.belongsTo(models.Pokemon, {
             foreignKey: "idPokemon",
             as: "Pokemon",
-        });
-      PokemonCliente.belongsTo(models.Cliente, {
-            foreignKey: "id_cliente",
-            as: "Cliente",
         });
     };
 

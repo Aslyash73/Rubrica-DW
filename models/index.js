@@ -11,22 +11,22 @@ const sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPassword,
 });
 
 const Cliente = require("./cliente")(sequelize, Sequelize.DataTypes)
-const Autos = require("./pokemon")(sequelize, Sequelize.DataTypes)
-const Ventas = require("./pokemoncliente")(sequelize, Sequelize.DataTypes)
+const Pokemon = require("./pokemon")(sequelize, Sequelize.DataTypes)
+const Pokemoncliente = require("./pokemoncliente")(sequelize, Sequelize.DataTypes)
 const Parametro = require("./parametro")(sequelize, Sequelize.DataTypes)
 const Valorparametro = require("./valorparametro")(sequelize, Sequelize.DataTypes)
 
 const db = {
     Cliente,
-    Autos,
-    Ventas,
+    Pokemon,
+    Pokemoncliente,
     Parametro,
     Valorparametro
 }
 
-db.Autos.associate(db);
 db.Cliente.associate(db);
-db.Ventas.associate(db);
+db.Pokemon.associate(db);
+db.Pokemoncliente.associate(db);
 db.Parametro.associate(db);
 db.Valorparametro.associate(db);
 

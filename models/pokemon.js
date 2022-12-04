@@ -11,8 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         ataque: {type: DataTypes.STRING(500), allowNull: false},
         defensa: {type: DataTypes.STRING(500), allowNull: false},
         tipo: {type: DataTypes.DATE, allowNull: false},
-        idApi: {type: DataTypes.STRING(500), allowNull: false},
-        idPokemon: {type: DataTypes.STRING(500), allowNull: false},
+        idApi: {type: DataTypes.BIGINT, allowNull: false},
         imagen: {type: DataTypes.STRING(500), allowNull: false},
         estado : {type: DataTypes.TINYINT(4), allowNull:  false, defaultValue:1},
     },
@@ -25,9 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     Pokemon.associate = function (models) {
-        Pokemon.hasMany(models.pokemonCliente, {
+        Pokemon.hasMany(models.Pokemoncliente, {
             foreignKey: "idPokemon",
-            as: "pokemonCliente",
+            as: "PokemonCliente",
         });
     };
 
