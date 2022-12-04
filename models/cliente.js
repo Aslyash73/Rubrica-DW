@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
       "Cliente",
       {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT(20),
             autoIncrement: true,
             primaryKey: true,
         },
@@ -21,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
 
     );
     Cliente.associate = function (models) {
-        Cliente.hasMany(models.pokemoncliente, {
-            foreignKey: "idPokemon",
-            as: "pokemoncliente",
+        Cliente.hasMany(models.Pokemoncliente, {
+            foreignKey: "id_cliente",
+            as: "PokemonsCliente",
         });
     };
 
